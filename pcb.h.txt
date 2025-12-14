@@ -1,0 +1,31 @@
+#ifndef PCB_H
+#define PCB_H
+
+#define MAX_PROCESSES 10
+
+typedef enum {
+    NEW,
+    READY,
+    RUNNING,
+    WAITING,
+    TERMINATED
+} ProcessState;
+
+typedef struct {
+    int pid;
+    int arrival_time;
+    int burst_time;
+    int priority;
+    int memory_required;
+    int waiting_time;
+    int turnaround_time;
+    ProcessState state;
+} PCB;
+
+extern PCB process_table[MAX_PROCESSES];
+extern int process_count;
+
+/* Utility */
+const char* state_name(ProcessState s);
+
+#endif

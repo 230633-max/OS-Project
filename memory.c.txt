@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include "pcb.h"
+
+#define MEMORY_SIZE 100
+int memory[MEMORY_SIZE];
+
+void init_memory() {
+    for(int i = 0; i < MEMORY_SIZE; i++)
+        memory[i] = -1;
+}
+
+void display_memory() {
+    printf("Memory: ");
+    for(int i = 0; i < MEMORY_SIZE; i++) {
+        if(memory[i] == -1) printf("[ ]");
+        else printf("[P%d]", memory[i]);
+    }
+    printf("\n");
+}
+
+void first_fit(PCB *p) {
+    int size = p->memory_required;
+    int cnt = 0, start = -1;
+
+    for(int i = 0; i < MEMORY_SIZE; i++) {
+        if(memory[i] == -1) {
+            if(cnt == 0) start = i;
+            cnt++;
+            if(cnt == size) break;
+        } else cnt = 0;
+    }
+
+    if(cnt < size) {
+        printf("Allocation failed for P%d\n", p->pid);
+        return;
+    }
+
+    for(int i = start; i < start + size; i++)
+        memory[i] = p->pid;
+
+    printf("Allocated %d units to P%d\n", size, p->pid);
+}
+
+void deallocate_memory(int pid) {
+    for(int i = 0; i < MEMORY_SIZE; i++)
+        if(memory[i] == pid)
+            memory[i] = -1;
+
+    printf("Deallocated memory of P%d\n", pid);
+}
