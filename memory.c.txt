@@ -48,3 +48,4 @@ void deallocate_memory(int pid) {
 
     printf("Deallocated memory of P%d\n", pid);
 }
+
